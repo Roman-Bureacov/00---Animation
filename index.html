@@ -4,7 +4,10 @@
 <head>
     <meta charset="utf-8">
     <title>Game Project Title Goes Here</title>
-  
+    <script type="text/javascript" src="../External/Matrix.js"></script>
+
+    <script type="text/javascript" src="./character/animation.js"></script>
+    <script type="text/javascript" src="./character/character.js"></script> <!-- must not forget to add the script! -->
     <script type="text/javascript" src="./assetmanager.js"></script>
     <script type="text/javascript" src="./timer.js"></script>
     <script type="text/javascript" src="./gameengine.js"></script>
@@ -12,6 +15,19 @@
     <script type="text/javascript" src="./main.js"></script>
 </head>
 <body>
-    <canvas id="gameWorld" width="1024" height="768" style="background: white; border: 1px solid black" tabindex="0" autofocus></canvas>
+<div style="
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        ">
+    <canvas id="gameWorld" width="1024" height="768"
+            style="background: white;border: 1px solid black;"
+            tabindex="0" autofocus></canvas>
+    <div style="font-size: 5rem">
+        <p>This is my awesome animation</p>
+        <p>Roman Bureacov</p>
+    </div>
+</div>
 </body>
 </html>
