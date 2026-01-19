@@ -3,96 +3,99 @@
  *
  * @author Roman Bureacov
  */
-class character {
+class Character {
+
+
+    /**
+     * The position of this character
+     * @type {{x: number, y: number}}
+     */
+    position = {x: 0, y: 0};
+
+    /**
+     * The scale of this character in the X and Y
+     * @type {{x: number, y: number}}
+     */
+    scale = {x: 1, y: 1};
+
+    /**
+     * The state of this character
+     * @type {Object.<string, string>}
+     */
+    states = {};
+
+    /**
+     * The map of animations for this character.
+     * @type {{String : Animator}} the mapping of an animation name to its corresponding animator object
+     */
+    animations = { };
+
+    /**
+     * The current animator this character is using
+     * @type {Animator}
+     */
+    currentAnimation = null;
+
+    /**
+     * If this character is locked from changing states
+     * @type {boolean} if the character is allowed to change states
+     */
+    stateLock = false;
+
+    /**
+     * The map of direction constants to their respective strings
+     * @type {Readonly<{UP: string, DOWN: string, LEFT: string, RIGHT: string}>}
+     */
+    static DIRECTION = Object.freeze({
+        UP : "up ",
+        DOWN : "down ",
+        LEFT : "left ",
+        RIGHT : "right ",
+    });
+
+    /**
+     * The state of this character as per the states this character may exhibit.
+     * @Type {string}
+     */
+    state = "";
+
+    /**
+     * The
+     * @type {string}
+     */
+    facing = Character.DIRECTION.RIGHT;
+
+    /**
+     * Creates a basic character
+     * @param game the game engine
+     * @param image the spritesheet image for this character
+     */
     constructor(game, image) {
         Object.assign(this, { game, image });
         this.spritesheet = new Spritesheet(this.image, 3, 14);
 
-        this.position = {x: 0, y: 0};
-        this.scale = {x: 2, y: 2};
-        this.dx = 0;
-
-        this.states = Object.freeze({
-            MOVE : "move ",
-            ATTACK : "attack ",
-            IDLE : "idle ",
-        });
-
-        this.direction = Object.freeze({
-            LEFT : "left ",
-            RIGHT : "right ",
-        });
-
-        this.state = this.states.IDLE;
-        this.facing = this.direction.RIGHT;
-
-
-        this.setupAnimation();
-        this.setupKeymap();
     }
 
+    /**
+     *
+     */
     setupAnimation() {
-        this.animations = {
-            [this.states.MOVE + this.direction.RIGHT] : new Animator(
-                this.spritesheet,
-                [ [1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5] ],
-                0.25),
-            [this.states.MOVE + this.direction.LEFT]: new Animator(
-                this.spritesheet,
-                [ [1, 13], [1, 12], [1, 11], [1, 10], [1, 9], [1, 8] ],
-                0.25
-            ),
-            [this.states.IDLE + this.direction.RIGHT]: new Animator(
-                this.spritesheet,
-                [ [0, 0] ],
-                1
-                ),
-            [this.states.IDLE + this.direction.LEFT]: new Animator(
-                this.spritesheet,
-                [ [0, 13] ],
-                1
-            ),
-            [this.states.ATTACK + this.direction.RIGHT]: new Animator(
-                this.spritesheet,
-                [ [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [2, 6] ],
-                0.25,
-                false,
-                () => {
-                    this.state = this.states.IDLE;
-                    this.facing = this.direction.RIGHT;
-                }
-            ),
-            [this.states.ATTACK + this.direction.LEFT]: new Animator(
-                this.spritesheet,
-                [ [2, 13], [2, 12], [2, 11], [2, 10], [2, 9], [2, 8], [2, 7] ],
-                0.25,
-                false,
-                () => {
-                    this.state = this.states.IDLE;
-                    this.facing = this.direction.LEFT;
-                }
-            ),
-        };
 
         this.currentAnimation = this.animations[this.animationName()];
     }
 
-    setupKeymap() {
-        this.keymap = {
+    /**
+     * Tells this character that a key event has occurred.
+     * @param keyEvent the key event to process
+     */
+    acknowledge(keyEvent) {
 
-        }
     }
 
-    move(dx) {
-        this.state = this.states.MOVE;
-        this.dx = dx;
-        this.facing = dx < 0 ? this.direction.LEFT : this.direction.RIGHT;
-    }
-
-    swing() {
-        this.state = this.states.ATTACK;
-    }
-
+    /**
+     * Draws this character
+     * @param context the drawing context
+     */
     draw(context) {
         let anim = this.animations[this.animationName()];
 
@@ -106,21 +109,30 @@ class character {
             this.scale.x, this.scale.y);
     }
 
+    /**
+     * Builds the animation name to retrieve
+     * @returns {string}
+     */
     animationName() {
         return this.state + this.facing;
     }
 
+    /**
+     * Updates this character
+     */
     update() {
         ({
-            [this.states.ATTACK] : () => {
 
-            },
-            [this.states.MOVE] : () => {
-                if (this.dx !== 0) {
-                    this.position.x += this.dx;
-                    this.dx = 0;
-                } else this.state = this.states.IDLE;
-            }
         })[this.state]?.();
+    }
+
+    /**
+     * Sets the state of this character if there is no state lock
+     * @param newState the new state to go into
+     * @return {boolean} the state lock
+     */
+    setState(newState) {
+        if (!this.stateLock) this.state = newState;
+        return this.stateLock;
     }
 }
