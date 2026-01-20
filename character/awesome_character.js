@@ -133,7 +133,7 @@ class AwesomeCharacter extends Character {
 
                 if (this.acceleration.x === 0) {
                     this.setState(this.states.IDLE);
-                }
+                } else this.setState(this.states.MOVE);
             },
             [this.states.IDLE] : () => {
                 this.velocity.x /= 1.05;
