@@ -28,9 +28,10 @@ class Animator {
      * @param [callback=undefined] if the animation does not loop, this no-argument callback
      * is called once the animation has completed
      */
-    constructor(spritesheet, frames, frameDelay, isLooping = true, callback = undefined) {
-        Object.assign(this, { spritesheet, frames, frameDelay, isLooping, callback });
+    constructor(spritesheet, frames, duration, isLooping = true, callback = undefined) {
+        Object.assign(this, { spritesheet, frames, duration, isLooping, callback });
 
+        this.frameDelay = this.duration / frames.length;
         this.elapsedTime = 0;
     }
 
