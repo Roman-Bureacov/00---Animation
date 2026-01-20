@@ -23,7 +23,7 @@ class Animator {
      * @param spritesheet the spritesheet object
      * @param {Array<[Number, Number]>} frames the frames that this animator is responsible for, where
      * the first entry is the row and the second is the column in the spritesheet matrix
-     * @param frameDelay the delay between frames in seconds
+     * @param duration the total duration of this animation
      * @param [isLooping=true] if the animation should loop
      * @param [callback=undefined] if the animation does not loop, this no-argument callback
      * is called once the animation has completed
@@ -67,7 +67,7 @@ class Animator {
 class Spritesheet extends Matrix {
     constructor(image, rows, columns) {
         super(rows, columns);
-        Object.assign(this, { image, rows, columns })
+        Object.assign(this, { image, rows, columns });
 
         this.width = image.width / columns;
         this.height = image.height / rows;

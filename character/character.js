@@ -3,14 +3,7 @@
  *
  * @author Roman Bureacov
  */
-class Character {
-
-
-    /**
-     * The position of this character
-     * @type {{x: number, y: number}}
-     */
-    position = {x: 0, y: 0};
+class Character extends PhysicsEntity {
 
     /**
      * The scale of this character in the X and Y
@@ -71,6 +64,7 @@ class Character {
      * @param image the spritesheet image for this character
      */
     constructor(game, image) {
+        super();
         Object.assign(this, { game, image });
         this.spritesheet = new Spritesheet(this.image, 3, 14);
 
@@ -82,14 +76,6 @@ class Character {
     setupAnimation() {
 
         this.currentAnimation = this.animations[this.animationName()];
-    }
-
-    /**
-     * Tells this character that a key event has occurred.
-     * @param keyEvent the key event to process
-     */
-    acknowledge(keyEvent) {
-
     }
 
     /**
@@ -121,9 +107,14 @@ class Character {
      * Updates this character
      */
     update() {
+        this.updatePhysics(this.game.clockTick);
+
+        /*
+        // this may be useful for making a concrete character:
         ({
 
         })[this.state]?.();
+         */
     }
 
     /**

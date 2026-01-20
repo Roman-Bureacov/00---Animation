@@ -11,6 +11,8 @@ class AwesomeCharacter extends Character {
         this.state = this.states.IDLE;
         this.facing = Character.DIRECTION.RIGHT;
 
+        this.velocityMax.x = 10;
+
         this.setupAnimation();
         this.setupKeymap();
     }
@@ -75,30 +77,24 @@ class AwesomeCharacter extends Character {
         };
 
         this.keymapper.outputMap = {
-            "move right" : () => this.move(5),
-            "move left" : () => this.move(-5),
+            "move right" : () => this.move(100),
+            "move left" : () => this.move(-100),
             "attack" : () => this.swing(),
             "stop" : () => this.stopMoving(),
         };
     }
 
-    /**
-     * Tells this character that a key event has occurred.
-     * @param keyList the list of key event to process
-     */
-    acknowledge(keyList) {
-        for (let key in keyList) this.keymapper.send(key);
-    }
-
-    move(dx) {
+    move(acceleration) {
         if (!this.setState(this.states.MOVE)) {
-            this.dx = dx;
-            this.facing = dx < 0 ? Character.DIRECTION.LEFT : Character.DIRECTION.RIGHT;
+            this.acceleration.x = acceleration;
+            this.facing = acceleration < 0 ? Character.DIRECTION.LEFT : Character.DIRECTION.RIGHT;
         }
     }
 
     stopMoving() {
-        this.setState(this.states.IDLE);
+        if (this.setState(this.states.IDLE)) {
+            this.velocity.x /= 10;
+        }
     }
 
     swing() {
@@ -106,6 +102,9 @@ class AwesomeCharacter extends Character {
     }
 
     update() {
+        super.update();
+        this.acceleration.x = 0;
+        this.acceleration.y = 0;
         for (let key in this.game.keys) this.keymapper.sendKeyEvent(this.game.keys[key]);
 
         ({
@@ -113,7 +112,10 @@ class AwesomeCharacter extends Character {
                 this.stateLock = true;
             },
             [this.states.MOVE] : () => {
-                this.position.x += this.dx;
+
+            },
+            [this.states.IDLE] : () => {
+                this.velocity.x /= 1.05;
             }
         })[this.state]?.();
     }

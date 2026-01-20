@@ -44,17 +44,22 @@ class PhysicsEntity {
      * @param timeStep
      */
     updatePhysics(timeStep) {
-        this.velocity.x =
-            (Math.abs(this.velocity.x) > this.velocityMax.x) ?
+        const newVelocity = {
+            x: this.acceleration.x * timeStep,
+            y: this.acceleration.y * timeStep
+        };
+
+        this.velocity.x +=
+            (Math.abs(newVelocity.x) > this.velocityMax.x) ?
                 this.velocityMax.x * Math.sign(this.velocity.x)
-                : this.acceleration.x * timeStep;
-        this.velocity.y =
+                : newVelocity.x;
+        this.velocity.y +=
             (Math.abs(this.velocity.y) > this.velocityMax.y) ?
                 this.velocityMax.y * Math.sign(this.velocity.y)
-                : this.acceleration.y * timeStep;
+                : newVelocity.y;
 
-        this.position.x = this.velocity.x * timeStep;
-        this.position.y = this.velocity.y * timeStep;
+        this.position.x += this.velocity.x * timeStep;
+        this.position.y += this.velocity.y * timeStep;
     }
 }
 
