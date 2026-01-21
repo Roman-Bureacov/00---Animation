@@ -66,6 +66,7 @@ class Character extends PhysicsEntity {
     constructor(game, image) {
         super();
         Object.assign(this, { game, image });
+        // TODO: get this bozo line outta here
         this.spritesheet = new Spritesheet(this.image, 3, 14);
 
     }

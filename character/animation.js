@@ -22,7 +22,8 @@ class Animator {
      * Creates an animator for handling animations
      * @param spritesheet the spritesheet object
      * @param {Array<[Number, Number]>} frames the frames that this animator is responsible for, where
-     * the first entry is the row and the second is the column in the spritesheet matrix
+     * the first entry is the row and the second is the column in the spritesheet matrix; the frames should
+     * be sorted from the start of the animation to the end of the animation
      * @param duration the total duration of this animation
      * @param [isLooping=true] if the animation should loop
      * @param [callback=undefined] if the animation does not loop, this no-argument callback
