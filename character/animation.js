@@ -12,12 +12,15 @@ export class Animator {
      * the first entry is the row and the second is the column in the spritesheet matrix; the frames should
      * be sorted from the start of the animation to the end of the animation
      * @param duration the total duration of this animation
+     * @param {{ [key: Number]: Audio}} [soundMap=undefined] the map of zero-indexed frame numbers to their audio object
      * @param [isLooping=true] if the animation should loop
      * @param [callback=undefined] if the animation does not loop, this no-argument callback
      * is called once the animation has completed
      */
-    constructor(spritesheet, frames, duration, isLooping = true, callback = undefined) {
-        Object.assign(this, { spritesheet, frames, duration, isLooping, callback });
+    constructor(spritesheet, frames, duration, soundMap = undefined, isLooping = true, callback = undefined) {
+        Object.assign(this, { spritesheet, frames, duration, soundMap, isLooping, callback });
+
+        this.lastFrame = -1;
 
         this.frameDelay = this.duration / frames.length;
         this.elapsedTime = 0;
@@ -30,6 +33,10 @@ export class Animator {
 
         // if at the last frame...
         if (frameNumber === this.frames.length - 1) this.isLooping ? this.elapsedTime = 0 : this.callback?.();
+        if (this.lastFrame !== frameNumber) {
+            this.lastFrame = frameNumber;
+            this.soundMap?.[frameNumber]?.play();
+        }
 
         let frame = this.frames[frameNumber];
         let frameCoord = this.spritesheet.get(frame[0], frame[1]);
@@ -49,6 +56,7 @@ export class Animator {
 
     reset() {
         this.elapsedTime = 0;
+        this.lastFrame = -1;
     }
 }
 

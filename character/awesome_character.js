@@ -1,6 +1,7 @@
 import {Character} from "./character.js";
 import {Animator, Spritesheet} from "./animation.js";
 import {KeyMapper} from "../keymapper.js";
+import { global } from "../main.js";
 
 export class AwesomeCharacter extends Character {
     constructor(game, image) {
@@ -30,15 +31,28 @@ export class AwesomeCharacter extends Character {
     }
 
     setupAnimation() {
+        let attackAudioMap = { 2: global.assets.getAudio("sfx/swing.wav") };
+        let walkingAudioMap = {
+            0 : global.assets.getAudio("sfx/walk01.wav"),
+            1 : global.assets.getAudio("sfx/walk02.wav"),
+            2 : global.assets.getAudio("sfx/walk03.wav"),
+            3 : global.assets.getAudio("sfx/walk04.wav"),
+            4 : global.assets.getAudio("sfx/walk05.wav"),
+            5 : global.assets.getAudio("sfx/walk06.wav"),
+        }
+
         this.animations = {
             [this.states.MOVE + Character.DIRECTION.RIGHT] : new Animator(
                 this.spritesheet,
                 [ [1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5] ],
-                1),
+                1,
+                walkingAudioMap
+            ),
             [this.states.MOVE + Character.DIRECTION.LEFT]: new Animator(
                 this.spritesheet,
                 [ [1, 13], [1, 12], [1, 11], [1, 10], [1, 9], [1, 8] ],
-                1
+                1,
+                walkingAudioMap
             ),
             [this.states.IDLE + Character.DIRECTION.RIGHT]: new Animator(
                 this.spritesheet,
@@ -54,6 +68,7 @@ export class AwesomeCharacter extends Character {
                 this.spritesheet,
                 [ [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [2, 5], [2, 6] ],
                 0.5,
+                attackAudioMap,
                 false,
                 () => {
                     this.stateLock = false;
@@ -65,6 +80,7 @@ export class AwesomeCharacter extends Character {
                 this.spritesheet,
                 [ [2, 13], [2, 12], [2, 11], [2, 10], [2, 9], [2, 8], [2, 7] ],
                 0.5,
+                attackAudioMap,
                 false,
                 () => {
                     this.stateLock = false;
