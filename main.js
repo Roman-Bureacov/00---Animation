@@ -1,3 +1,7 @@
+import {GameEngine} from "./gameengine.js";
+import {AssetManager} from "./assetmanager.js";
+import {AwesomeCharacter} from "./character/awesome_character.js";
+
 const gameEngine = new GameEngine();
 gameEngine.options = {
 	debugging: false,

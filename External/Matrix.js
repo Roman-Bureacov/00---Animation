@@ -130,7 +130,7 @@ const inverse = (M) => {
  *
  * @author Roman Bureacov
  */
-class Matrix {
+export class Matrix {
     /**
      * Creates a matrix of specified size with all entries 0
      * @param rows the number of rows in the matrix
@@ -181,3 +181,5 @@ class Matrix {
         return m
     }
 }
+
+export const MatrixOp = Object.freeze({ identity, multiply, inverse, determinant, cofactor, });

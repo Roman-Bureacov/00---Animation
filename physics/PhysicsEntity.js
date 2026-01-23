@@ -9,7 +9,7 @@ Roman Bureacov
  *
  * @author Roman Bureacov
  */
-class PhysicsEntity {
+export class PhysicsEntity {
 
     /**
      * The acceleration vector of this entity

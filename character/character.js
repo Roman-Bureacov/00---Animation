@@ -1,9 +1,11 @@
+import {PhysicsEntity} from "../physics/PhysicsEntity.js";
+
 /**
  * Creates a basic character
  *
  * @author Roman Bureacov
  */
-class Character extends PhysicsEntity {
+export class Character extends PhysicsEntity {
 
     /**
      * The scale of this character in the X and Y

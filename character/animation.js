@@ -2,22 +2,9 @@
 This code manages animation.
  */
 
-const toMatrix = (rows, columns, image) => {
-    const m = new Matrix(rows, columns);
+import {Matrix} from "../External/Matrix.js";
 
-    const w = image.width / columns;
-    const h = image.height / rows;
-
-    for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < columns; c++) {
-            m.set(r, c, {"x": c * w, "y": r * h});
-        }
-    }
-
-    return m;
-}
-
-class Animator {
+export class Animator {
     /**
      * Creates an animator for handling animations
      * @param spritesheet the spritesheet object
@@ -65,7 +52,7 @@ class Animator {
     }
 }
 
-class Spritesheet extends Matrix {
+export class Spritesheet extends Matrix {
     constructor(image, rows, columns) {
         super(rows, columns);
         Object.assign(this, { image, rows, columns });

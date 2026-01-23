@@ -1,6 +1,8 @@
 // This game shell was happily modified from Googler Seth Ladd's "Bad Aliens" game and his Google IO talk in 2011
 
-class GameEngine {
+import {Timer} from "./timer.js";
+
+export class GameEngine {
 
     /**
      * The map of key codes registered before the loop iteration
@@ -138,10 +140,25 @@ class GameEngine {
         this.update();
         this.draw();
         this.keys = {};
-
-        // TODO: entity should loop back around when off the screen bounds
     };
 
 }
 
 // KV Le was here :)
+
+/** Creates an alias for requestAnimationFrame for backwards compatibility */
+window.requestAnimFrame = (() => {
+    return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        /**
+         * Compatibility for requesting animation frames in older browsers
+         * @param {Function} callback Function
+         * @param {DOM} element DOM ELEMENT
+         */
+        ((callback, element) => {
+            window.setTimeout(callback, 1000 / 60);
+        });
+})();

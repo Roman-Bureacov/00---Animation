@@ -3,7 +3,7 @@
  *
  * @author Roman Bureacov
  */
-class KeyMapper {
+export class KeyMapper {
 
     /**
      * The map of key names to action names. Use function keyName to get the appropriate name.

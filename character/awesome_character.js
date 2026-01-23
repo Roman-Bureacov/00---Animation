@@ -1,4 +1,8 @@
-class AwesomeCharacter extends Character {
+import {Character} from "./character.js";
+import {Animator, Spritesheet} from "./animation.js";
+import {KeyMapper} from "../keymapper.js";
+
+export class AwesomeCharacter extends Character {
     constructor(game, image) {
         super(game, image);
 
