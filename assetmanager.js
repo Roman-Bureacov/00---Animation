@@ -17,6 +17,22 @@ export class AssetManager {
 
     downloadAll(callback) {
         if (this.downloadQueue.length === 0) setTimeout(callback, 10);
+
+        Promise.all(
+            this.downloadQueue.map(path => new Promise((res, rej) => {
+                console.log(path);
+                const img = new Image();
+                img.onload = () => {console.log("Loaded " + img.src); this.successCount++};
+                img.onerror = () => {console.log("Error loading " + img.src); this.errorCount++};
+                img.src = path;
+
+                this.cache[path] = img;
+            }))
+        ).then(callback);
+
+        // same function above as below
+
+        /*
         for (let i = 0; i < this.downloadQueue.length; i++) {
             const img = new Image();
 
@@ -38,6 +54,7 @@ export class AssetManager {
             img.src = path;
             this.cache[path] = img;
         }
+         */
     };
 
     getAsset(path) {
