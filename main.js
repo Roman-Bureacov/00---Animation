@@ -13,6 +13,7 @@ const imgName = "img/Guy.png";
 
 const ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload(imgName);
+ASSET_MANAGER.queueDownload("img/background.png");
 ASSET_MANAGER.queueDownload("sfx/swing.wav");
 ASSET_MANAGER.queueDownload("sfx/walk01.wav");
 ASSET_MANAGER.queueDownload("sfx/walk02.wav");
@@ -33,6 +34,13 @@ window.DEBUG = {
 
 global.assets = ASSET_MANAGER;
 
+let background = {
+	draw : (context) => {
+		context.drawImage(ASSET_MANAGER.getAsset("img/background.png"), 0, 0);
+	},
+	update : () => {},
+}
+
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
@@ -44,8 +52,9 @@ ASSET_MANAGER.downloadAll(() => {
 
 	let img = ASSET_MANAGER.getAsset(imgName);
 	let c = char = new AwesomeCharacter(gameEngine, img);
-	c.position.y = 125;
+	c.position.y = 190;
 	gameEngine.addEntity(c);
+	gameEngine.addEntity(background);
 
 	gameEngine.start();
 });
